@@ -1,6 +1,6 @@
-sudo:required
+sudo: required
 services:
-  -docker
+  - docker
 
 # build the docker container with the docker.dev file to run test
 before_install:
