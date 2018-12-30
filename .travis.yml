@@ -1,0 +1,27 @@
+sudo:required
+services:
+  -docker
+
+# build the docker container with the docker.dev file to run test
+before_install:
+  - docker build -t vijayjs2208/react-test -f ./client/dockerfile.dev ./client
+
+# run the test
+scripts:
+  - docker run vijayjs2208/react-test npm run test -- --coverage
+
+# Start building the docker production containers.
+after_success:
+  - docker build -t vijayjs2208/multi-client ./client
+  - docker build -t vijayjs2208/multi-nginx ./nginx
+  - docker build -t vijayjs2208/multi-server ./server
+  - docker build -t vijayjs2208/multi-worker ./worker
+
+# we have built the docker images. Now we want to push those images to docker hub.
+# For that first we wanted to login to the docker cli.
+# Enter the login details here
+  - echo "$DOCKER_PASSWORD" | docker login -u  "$DOCKER_ID" --password-stdin
+  - docker push vijayjs2208/multi-client
+  - docker push vijayjs2208/multi-nginx
+  - docker push vijayjs2208/multi-server
+  - docker push vijayjs2208/multi-worker
