@@ -3,7 +3,8 @@
     "containerDefinitions": [
         {
             "name" : "client",
-            "image" : ""
+            "image" : "vijayjs2208/multi-client",
+            "hostname" : "client"
         }
     ]
 }
